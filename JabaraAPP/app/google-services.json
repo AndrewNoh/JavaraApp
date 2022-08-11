@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "32692982952",
+    "project_id": "javara-6581d",
+    "storage_bucket": "javara-6581d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:32692982952:android:204bf882a592441162de9d",
+        "android_client_info": {
+          "package_name": "com.kosmo.zabara"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "32692982952-58hd2afna04v2jjtl7h8ahvncedrnv3p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaXuVeQXe1jWC0WkB-JKbIjTwpFhWgC1k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "32692982952-58hd2afna04v2jjtl7h8ahvncedrnv3p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

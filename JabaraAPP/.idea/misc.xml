@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.178" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/drawable-v24/rounded_background_white.xml" value="0.2355" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/drawable/bg_spinner.xml" value="0.177" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/drawable/bg_spinner_bg.xml" value="0.1" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/drawable/button_design.xml" value="0.178" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/drawable/category_btn_background.xml" value="0.3495" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/drawable/chat_selector.xml" value="0.3495" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/drawable/down_style.xml" value="0.177" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/drawable/email.xml" value="0.179" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/drawable/files_selector.xml" value="0.179" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/drawable/home_selector.xml" value="0.178" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/drawable/ic_launcher_background.xml" value="0.179" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/drawable/kakao.xml" value="0.3495" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/drawable/lock.xml" value="0.178" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/drawable/login.xml" value="0.178" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/drawable/naver.xml" value="0.3495" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/drawable/rounded_background.xml" value="0.29" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/drawable/shape_for_circle_button.xml" value="0.278" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/drawable/shape_for_circle_button_03.xml" value="0.278" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/drawable/textview.xml" value="0.178" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/drawable/user_selector.xml" value="0.178" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/font/fontstyle.xml" value="0.20052083333333334" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/activity_intro_login.xml" value="0.34791666666666665" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/activity_location.xml" value="0.34791666666666665" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/activity_main.xml" value="0.34791666666666665" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/activity_new.xml" value="0.33" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/activity_sign_up.xml" value="0.34791666666666665" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/activity_splash.xml" value="0.2" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/as.xml" value="0.5" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/custom_loading_progress.xml" value="0.16979166666666667" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/exem.xml" value="0.5" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/fragment_category.xml" value="0.33" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/fragment_chat.xml" value="0.25" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/fragment_chat_view.xml" value="0.2" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/fragment_detail.xml" value="0.20520833333333333" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/fragment_files.xml" value="0.34791666666666665" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/fragment_files_view.xml" value="0.33" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/fragment_files_write.xml" value="0.34791666666666665" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/fragment_home.xml" value="0.22" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/fragment_home_write.xml" value="0.34791666666666665" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/fragment_image_search.xml" value="0.25" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/fragment_kakao_bottom_sheet.xml" value="0.5" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/fragment_kakao_bottom_sheet2.xml" value="0.22" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/fragment_kakao_bottom_sheet3.xml" value="0.5" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/fragment_kakao_list_dialog_list_dialog.xml" value="0.34791666666666665" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/fragment_kakao_list_dialog_list_dialog_item.xml" value="0.34791666666666665" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/fragment_kakao_map.xml" value="0.18" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/fragment_kakao_map_view.xml" value="0.16" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/fragment_keyword.xml" value="0.34791666666666665" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/fragment_search.xml" value="0.5" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/fragment_user.xml" value="0.33" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/item_chat_layout.xml" value="0.5" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/item_chat_left_layout.xml" value="0.5" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/item_chat_left_no_layout.xml" value="0.5" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/item_chat_right_layout.xml" value="0.5" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/item_custom_loading.xml" value="0.16" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/item_files_layout.xml" value="0.34791666666666665" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/item_kakao_view.xml" value="0.5" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/item_left_chat_layout.xml" value="0.75" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/item_left_chat_noimg_layout.xml" value="0.75" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/item_main_input_layout.xml" value="0.16666666666666666" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/item_main_layout.xml" value="0.34791666666666665" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/item_main_swipe_layout.xml" value="0.17" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/item_newcustom2_layout.xml" value="0.5" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/item_newcustom3_layout.xml" value="0.33" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/item_newcustom_layout.xml" value="0.33" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/item_newcustom_layout3.xml" value="0.5" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/item_right_chat_layout.xml" value="0.5" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/item_show_card.xml" value="0.67" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/item_slider_layout.xml" value="0.16" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/layout/item_spinner_layout.xml" value="0.25" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/menu/chat_menu.xml" value="0.25" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/menu/home_menu.xml" value="0.67" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/menu/mypage_menu.xml" value="0.17083333333333334" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/menu/navi_menu.xml" value="0.34791666666666665" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/menu/town_menu.xml" value="0.33" />
+        <entry key="..\:/NIS/Workspace/Project/JabaraAPP/app/src/main/res/xml/network_security_config.xml" value="0.16927083333333334" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

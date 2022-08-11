@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/qr"
+        android:enabled="true"
+        android:icon="@drawable/qr"
+        android:iconTint="#4E2720"
+        android:title="큐알 코드"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/alaram"
+        android:enabled="true"
+        android:iconTint="#4E2720"
+        android:icon="@drawable/alram"
+        android:title="알림"
+        app:showAsAction="always" />
+
+</menu>
