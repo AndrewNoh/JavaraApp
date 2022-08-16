@@ -1,8 +1,15 @@
 # JavaraApp
+[우리동네 이웃과 더 가까워지는 따뜻한 동네를 만드는 ‘자바라’]
+‘자바라’는 개발 언어인 자바(JAVA)를 따서 우리 동네 좋은 물건 다~잡아라(자바라) 라는 의미에서 탄생하였습니다. 
+타 중고거래 사이트와는 달리 경매 시스템을 추가하여 경매의 특장점인 시세보다 저렴하게, 사용자가 원하는 가격에 물건을 구입할 수 있는 서비스를 제공하였습니다. 자바라 플랫폼의 존재 목적은 ‘거래’만이 아닌 ‘이웃 소통’, ‘동네 이슈’ 등 사용자가 동네에서 산책하듯, 마치 동네를 옮겨 놓은 듯한 느낌이 들 수 있도록 녹여냈습니다. 나노사회가 된 요즘 단순히 ‘쇼핑’, ‘구매’의 목적이 아닌 따뜻하게 소통하며 아름다운 동네 문화를 만들 수 있는, 자꾸 나누고 싶게 하는 플랫폼, 그게 바로 ‘자바라’입니다. 
 
-
-preview
-추후 추가 예정
+## preview
+<p>
+<img width=200px height = 400px src="https://user-images.githubusercontent.com/32383693/184851130-59279556-7c75-4d0b-8094-5f721ed6886c.jpg"/>
+<img width=200px height = 400px src="https://user-images.githubusercontent.com/32383693/184851751-a969b9fb-c5f5-4268-af30-a2a5ac5ffb04.jpg"/>
+<img width=200px height = 400px src="https://user-images.githubusercontent.com/32383693/184851766-4bfcb51d-0fbc-496b-8686-3e0ccd2ea503.jpg"/>
+<img width=200px height = 400px src="https://user-images.githubusercontent.com/32383693/184851770-66087b66-d8f2-4c57-b9af-bae8fa976a69.jpg"/>
+</p>
 
 # Explanation
 
