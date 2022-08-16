@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +41,7 @@ import com.kosmo.zabara.databinding.ItemChatLeftLayoutBinding;
 import com.kosmo.zabara.databinding.ItemChatLeftNoLayoutBinding;
 import com.kosmo.zabara.databinding.ItemChatRightLayoutBinding;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -214,11 +217,11 @@ public class ChatViewRecycleAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             if (item.getImg() != null && item.getChatcontent().equals("이모티콘")) {
                 glide.load(imageUrl + item.getImg()).into(emoticon);
-                rightGone.setVisibility(View.VISIBLE);
+                emoticon.setVisibility(View.VISIBLE);
                 isContent = false;
             } else {
                 glide.clear(emoticon);
-                rightGone.setVisibility(View.GONE);
+                emoticon.setVisibility(View.GONE);
             }
 
             if (item.getUri() != null) {
@@ -251,7 +254,14 @@ public class ChatViewRecycleAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     return;
                 }
                 fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
-                    Location destination = Location.newBuilder(matcher.group(3), location.getLatitude(), location.getLongitude()).build();
+                    Geocoder geocoder = new Geocoder(context);
+                    List<Address> list = null;
+                    try {
+                        list = geocoder.getFromLocationName(matcher.group(3), 1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Location destination = Location.newBuilder(matcher.group(3), list.get(0).getLongitude(), list.get(0).getLatitude()).build();
                     NaviOptions options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84).setVehicleType(VehicleType.FIRST).setRpOption(RpOption.SHORTEST).build();
                     KakaoNaviParams.Builder builder = KakaoNaviParams.newBuilder(destination).setNaviOptions(options);
                     KakaoNaviService.getInstance().navigate(context, builder.build());
@@ -322,7 +332,14 @@ public class ChatViewRecycleAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         return;
                     }
                     fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
-                        Location destination = Location.newBuilder(matcher.group(3), location.getLatitude(), location.getLongitude()).build();
+                        Geocoder geocoder = new Geocoder(context);
+                        List<Address> list = null;
+                        try {
+                            list = geocoder.getFromLocationName(matcher.group(3), 1);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Location destination = Location.newBuilder(matcher.group(3), list.get(0).getLongitude(), list.get(0).getLatitude()).build();
                         NaviOptions options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84).setVehicleType(VehicleType.FIRST).setRpOption(RpOption.SHORTEST).build();
                         KakaoNaviParams.Builder builder = KakaoNaviParams.newBuilder(destination).setNaviOptions(options);
                         KakaoNaviService.getInstance().navigate(context, builder.build());
@@ -340,6 +357,14 @@ public class ChatViewRecycleAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             } else {
                 glide.clear(no_img);
                 no_img_gone.setVisibility(View.GONE);
+            }
+            if (item.getImg() != null && item.getChatcontent().equals("이모티콘")) {
+                glide.load(imageUrl + item.getImg()).into(emoticon);
+                emoticon.setVisibility(View.VISIBLE);
+                isContent = false;
+            } else {
+                glide.clear(emoticon);
+                emoticon.setVisibility(View.GONE);
             }
             if (item.getChatcontent().equals("::명함::")) {
                 glide.load(profileUrl + item.getProfile_img()).into(profileImge);
@@ -445,7 +470,7 @@ public class ChatViewRecycleAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 promise.setVisibility(View.VISIBLE);
                 isContent = false;
                 matcher = pattern.matcher(item.getChatcontent());
-                if(matcher.matches()) {
+                if (matcher.matches()) {
                     promise_date.setText(matcher.group(1));
                     promise_time.setText(matcher.group(2));
                     promise_location.setText(matcher.group(3));
@@ -457,7 +482,14 @@ public class ChatViewRecycleAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         return;
                     }
                     fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
-                        Location destination = Location.newBuilder(matcher.group(3), location.getLatitude(), location.getLongitude()).build();
+                        Geocoder geocoder = new Geocoder(context);
+                        List<Address> list = null;
+                        try {
+                            list = geocoder.getFromLocationName(matcher.group(3), 1);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Location destination = Location.newBuilder(matcher.group(3), list.get(0).getLongitude(), list.get(0).getLatitude()).build();
                         NaviOptions options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84).setVehicleType(VehicleType.FIRST).setRpOption(RpOption.SHORTEST).build();
                         KakaoNaviParams.Builder builder = KakaoNaviParams.newBuilder(destination).setNaviOptions(options);
                         KakaoNaviService.getInstance().navigate(context, builder.build());
@@ -474,6 +506,14 @@ public class ChatViewRecycleAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             } else {
                 glide.clear(user_img);
                 leftGone.setVisibility(View.GONE);
+            }
+            if (item.getImg() != null && item.getChatcontent().equals("이모티콘")) {
+                glide.load(imageUrl + item.getImg()).into(emoticon);
+                emoticon.setVisibility(View.VISIBLE);
+                isContent = false;
+            } else {
+                glide.clear(emoticon);
+                emoticon.setVisibility(View.GONE);
             }
             if (item.getChatcontent().equals("::명함::")) {
                 glide.load(profileUrl + item.getProfile_img()).into(profileImge);
