@@ -112,68 +112,65 @@ public class IntroLoginActivity extends AppCompatActivity {
             } else if (oAuthToken != null) {
                 Log.i(TAG, "로그인 성공(토큰) : " + oAuthToken.getAccessToken());
 
-                UserApiClient.getInstance().me(new Function2<User, Throwable, Unit>() {
-                    @Override
-                    public Unit invoke(User user, Throwable throwable) {
-                        if (user != null) {
-                            // 유저 정보가 정상 전달 되었을 경우
-                            String email = Objects.requireNonNull(user.getKakaoAccount()).getEmail();
-                            String password = Objects.requireNonNull(user.getKakaoAccount()).getEmail() + "kakaoLogin";
-                            Retrofit retrofit = new Retrofit.Builder()
-                                    .addConverterFactory(JacksonConverterFactory.create())
-                                    .baseUrl("http://192.168.0.38:9090/market/").build();
-                            UserService service = retrofit.create(UserService.class);
-                            UserDTO dto = new UserDTO();
-                            dto.setEmail(email);
-                            dto.setPassword(password);
-                            Call<Map<String, Boolean>> call = service.isLogin(dto);
-                            call.enqueue(new Callback<Map<String, Boolean>>() {
-                                @SneakyThrows
-                                @Override
-                                public void onResponse(Call<Map<String, Boolean>> call, Response<Map<String, Boolean>> response) {
-                                    if (response.isSuccessful()) {
-                                        Map<String, Boolean> result = response.body();
-                                        boolean isLogin = result.get("isLogin");
-                                        if (isLogin) {//회원
-                                            //컨텐츠 화면(MainActivity)으로 전환
-                                            handler.postDelayed(() -> {
-                                                binding.kakaoButton.stopAnimation(TransitionButton.StopAnimationStyle.EXPAND, () -> {
-                                                    Intent intent = new Intent(getBaseContext(), NewActivity.class);
-                                                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                                    startActivity(intent);
-                                                });
-                                            }, 2000);
-                                            //다른 화면에서 로그인 여부 판단을 위한 아이디 저장
-                                            SharedPreferences preferences = getSharedPreferences("usersInfo", MODE_PRIVATE);
-                                            preferences.edit().putString("email", email).commit();
-                                            preferences.edit().putString("password", password).commit();
+                UserApiClient.getInstance().me((user, throwable) -> {
+                    if (user != null) {
+                        // 유저 정보가 정상 전달 되었을 경우
+                        String email = Objects.requireNonNull(user.getKakaoAccount()).getEmail();
+                        String password = Objects.requireNonNull(user.getKakaoAccount()).getEmail() + "kakaoLogin";
+                        Retrofit retrofit = new Retrofit.Builder()
+                                .addConverterFactory(JacksonConverterFactory.create())
+                                .baseUrl("http://192.168.0.38:9090/market/").build();
+                        UserService service = retrofit.create(UserService.class);
+                        UserDTO dto = new UserDTO();
+                        dto.setEmail(email);
+                        dto.setPassword(password);
+                        Call<Map<String, Boolean>> call = service.isLogin(dto);
+                        call.enqueue(new Callback<Map<String, Boolean>>() {
+                            @SneakyThrows
+                            @Override
+                            public void onResponse(Call<Map<String, Boolean>> call, Response<Map<String, Boolean>> response) {
+                                if (response.isSuccessful()) {
+                                    Map<String, Boolean> result = response.body();
+                                    boolean isLogin = result.get("isLogin");
+                                    if (isLogin) {//회원
+                                        //컨텐츠 화면(MainActivity)으로 전환
+                                        handler.postDelayed(() -> {
+                                            binding.kakaoButton.stopAnimation(TransitionButton.StopAnimationStyle.EXPAND, () -> {
+                                                Intent intent = new Intent(getBaseContext(), NewActivity.class);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                                startActivity(intent);
+                                            });
+                                        }, 2000);
+                                        //다른 화면에서 로그인 여부 판단을 위한 아이디 저장
+                                        SharedPreferences preferences = getSharedPreferences("usersInfo", MODE_PRIVATE);
+                                        preferences.edit().putString("email", email).commit();
+                                        preferences.edit().putString("password", password).commit();
 
-                                        } else {//비회원
-                                            new AlertDialog.Builder(IntroLoginActivity.this)
-                                                    .setIcon(android.R.drawable.ic_lock_lock)
-                                                    .setTitle("로그인")
-                                                    .setMessage("아이디와 비번이 불일치합니다")
-                                                    .setPositiveButton("확인", null).show();
-                                        }
-                                    } else {
-                                        Log.i("com.kosmo.kosmoapp", "응답에러:" + response.errorBody().string());
+                                    } else {//비회원
+                                        new AlertDialog.Builder(IntroLoginActivity.this)
+                                                .setIcon(android.R.drawable.ic_lock_lock)
+                                                .setTitle("로그인")
+                                                .setMessage("아이디와 비번이 불일치합니다")
+                                                .setPositiveButton("확인", null).show();
                                     }
-                                    SystemClock.sleep(2000);
+                                } else {
+                                    Log.i("com.kosmo.kosmoapp", "응답에러:" + response.errorBody().string());
                                 }
+                                SystemClock.sleep(2000);
+                            }
 
-                                @Override
-                                public void onFailure(Call<Map<String, Boolean>> call, Throwable t) {
-                                    t.printStackTrace();
-                                }
-                            });
-                        }
-                        if (throwable != null) {
-                            // 로그인 시 오류 났을 때
-                            // 키해시가 등록 안 되어 있으면 오류 납니다.
-                            Log.w(TAG, "invoke: " + throwable.getLocalizedMessage());
-                        }
-                        return null;
+                            @Override
+                            public void onFailure(Call<Map<String, Boolean>> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
                     }
+                    if (throwable != null) {
+                        // 로그인 시 오류 났을 때
+                        // 키해시가 등록 안 되어 있으면 오류 납니다.
+                        Log.w(TAG, "invoke: " + throwable.getLocalizedMessage());
+                    }
+                    return null;
                 });
             }
             return null;

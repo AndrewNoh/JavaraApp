@@ -274,40 +274,37 @@ public class HomeFragment extends Fragment {
             return;
         }
         fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
-                            // 파라미터로 받은 location을 통해 위도, 경도 정보를 텍스트뷰에 set.
-                            preferences = contextNullSafe.getSharedPreferences("usersInfo", Context.MODE_PRIVATE);
-                            email = preferences.getString("email", "");
-                            String[] cityNames = getCityName(location.getLatitude(), location.getLongitude());
-                            Map<String, String> map = new HashMap<>();
-                            map.put("email", email);
-                            map.put("simpleAddr", cityNames[1]);
-                            map.put("nowAddress", cityNames[0]);
-                            Call<Map<String, Boolean>> callAddr = service.userAddr(map);
-                            callAddr.enqueue(new Callback<Map<String, Boolean>>() {
-                                @Override
-                                public void onResponse(Call<Map<String, Boolean>> call, Response<Map<String, Boolean>> response) {
-                                    if (response.isSuccessful()) {
-                                        Map<String, Boolean> result = response.body();
-                                        boolean isUpdate = result.get("isUpdate");
-                                        if (isUpdate) {
-                                            binding.btnHomeGeo.setText(cityNames[1]);
-                                        } else {
-                                            Toast.makeText(contextNullSafe, "주소 변경 실패했습니다.", Toast.LENGTH_SHORT).show();
-                                        }
+                .addOnSuccessListener(location -> {
+                    // Got last known location. In some rare situations this can be null.
+                    if (location != null) {
+                        // 파라미터로 받은 location을 통해 위도, 경도 정보를 텍스트뷰에 set.
+                        preferences = contextNullSafe.getSharedPreferences("usersInfo", Context.MODE_PRIVATE);
+                        email = preferences.getString("email", "");
+                        String[] cityNames = getCityName(location.getLatitude(), location.getLongitude());
+                        Map<String, String> map = new HashMap<>();
+                        map.put("email", email);
+                        map.put("simpleAddr", cityNames[1]);
+                        map.put("nowAddress", cityNames[0]);
+                        Call<Map<String, Boolean>> callAddr = service.userAddr(map);
+                        callAddr.enqueue(new Callback<Map<String, Boolean>>() {
+                            @Override
+                            public void onResponse(Call<Map<String, Boolean>> call, Response<Map<String, Boolean>> response) {
+                                if (response.isSuccessful()) {
+                                    Map<String, Boolean> result = response.body();
+                                    boolean isUpdate = result.get("isUpdate");
+                                    if (isUpdate) {
+                                        binding.btnHomeGeo.setText(cityNames[1]);
+                                    } else {
+                                        Toast.makeText(contextNullSafe, "주소 변경 실패했습니다.", Toast.LENGTH_SHORT).show();
                                     }
                                 }
+                            }
 
-                                @Override
-                                public void onFailure(Call<Map<String, Boolean>> call, Throwable t) {
-                                    Toast.makeText(contextNullSafe, "주소 변경 실패했습니다.", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
+                            @Override
+                            public void onFailure(Call<Map<String, Boolean>> call, Throwable t) {
+                                Toast.makeText(contextNullSafe, "주소 변경 실패했습니다.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
     }

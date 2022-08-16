@@ -1,9 +1,11 @@
 package com.kosmo.zabara.fragment.chat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,14 +14,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.RequestManager;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.kakao.kakaonavi.KakaoNaviParams;
+import com.kakao.kakaonavi.KakaoNaviService;
+import com.kakao.kakaonavi.Location;
+import com.kakao.kakaonavi.NaviOptions;
+import com.kakao.kakaonavi.options.CoordType;
+import com.kakao.kakaonavi.options.RpOption;
+import com.kakao.kakaonavi.options.VehicleType;
 import com.kosmo.zabara.api.dto.ChatDTO;
 import com.kosmo.zabara.api.service.UserService;
 import com.kosmo.zabara.databinding.ItemChatLeftLayoutBinding;
@@ -30,6 +43,8 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,6 +71,8 @@ public class ChatViewRecycleAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             .baseUrl("http://192.168.0.38:9090/market/").build();
     UserService service = retrofit.create(UserService.class);
     ViewGroup parent;
+    Matcher matcher;
+    Pattern pattern = Pattern.compile("약속 날짜:(.+) 시간:(.+) 장소:(.+)");
 
     public ChatViewRecycleAdapter(Context context, RequestManager glide) {
         this.context = context;
@@ -140,6 +157,12 @@ public class ChatViewRecycleAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         TextView nickname;
         TextView phonenumber;
         ImageView profileImge;
+        LinearLayout promise;
+        TextView promise_date;
+        TextView promise_time;
+        TextView promise_location;
+        TextView promise_btn;
+        ImageView emoticon;
 
         public RightViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -152,45 +175,88 @@ public class ChatViewRecycleAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             nickname = rightBinding.callNickname;
             phonenumber = rightBinding.callPhoneNumber;
             profileImge = rightBinding.callProfileImg;
+            promise = rightBinding.promise;
+            promise_date = rightBinding.promiseDate;
+            promise_time = rightBinding.promiseTime;
+            promise_location = rightBinding.promiseLocation;
+            promise_btn = rightBinding.promiseBtn;
+            emoticon = rightBinding.emoticon;
         }
 
         void onBind(ChatDTO item) {
+            boolean isContent = true;
             content.setText(item.getChatcontent());
             time.setText(dateFormat.format(item.getSendtime()));
             if (item.getUnread_count() != 1)
                 unread.setVisibility(View.GONE);
             else
                 unread.setVisibility(View.VISIBLE);
+            if (item.getChatcontent().startsWith("약속 날짜: ")) {
+                promise.setVisibility(View.VISIBLE);
+                matcher = pattern.matcher(item.getChatcontent());
+                if (matcher.matches()) {
+                    promise_date.setText("날짜 : " + matcher.group(1));
+                    promise_time.setText("시간 : " + matcher.group(2));
+                    promise_location.setText(matcher.group(3));
+                }
+                isContent = false;
+            } else {
+                promise.setVisibility(View.GONE);
+            }
             if (item.getImg() != null && item.getChatcontent().equals("사진")) {
                 glide.load(imageUrl + item.getImg()).into(msgImg);
                 rightGone.setVisibility(View.VISIBLE);
-                content.setVisibility(View.GONE);
+                isContent = false;
             } else {
                 glide.clear(msgImg);
                 rightGone.setVisibility(View.GONE);
-                content.setVisibility(View.VISIBLE);
             }
+
+            if (item.getImg() != null && item.getChatcontent().equals("이모티콘")) {
+                glide.load(imageUrl + item.getImg()).into(emoticon);
+                rightGone.setVisibility(View.VISIBLE);
+                isContent = false;
+            } else {
+                glide.clear(emoticon);
+                rightGone.setVisibility(View.GONE);
+            }
+
             if (item.getUri() != null) {
                 if (item.getChatcontent().equals("바로출력")) {
                     msgImg.setImageURI(item.getUri());
                     rightGone.setVisibility(View.VISIBLE);
-                    content.setVisibility(View.GONE);
+                    isContent = false;
                 } else {
                     rightGone.setVisibility(View.GONE);
-                    content.setVisibility(View.VISIBLE);
                 }
             }
             if (item.getChatcontent().equals("::명함::")) {
                 glide.load(profileUrl + item.getProfile_img()).into(profileImge);
                 nickname.setText(item.getNickname());
                 phonenumber.setText(item.getPhonenumber());
-                content.setVisibility(View.GONE);
                 callView.setVisibility(View.VISIBLE);
+                isContent = false;
             } else {
                 glide.clear(profileImge);
-                content.setVisibility(View.VISIBLE);
                 callView.setVisibility(View.GONE);
             }
+            if (isContent)
+                content.setVisibility(View.VISIBLE);
+            else
+                content.setVisibility(View.GONE);
+            promise_btn.setOnClickListener(view -> {
+                FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(context, "권한이 없어 해당 기능을 실행할 수 없습니다.", Toast.LENGTH_SHORT).show();    // 권한요청이 거절된 경우
+                    return;
+                }
+                fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+                    Location destination = Location.newBuilder(matcher.group(3), location.getLatitude(), location.getLongitude()).build();
+                    NaviOptions options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84).setVehicleType(VehicleType.FIRST).setRpOption(RpOption.SHORTEST).build();
+                    KakaoNaviParams.Builder builder = KakaoNaviParams.newBuilder(destination).setNaviOptions(options);
+                    KakaoNaviService.getInstance().navigate(context, builder.build());
+                });
+            });
         }
 
     }
@@ -207,6 +273,12 @@ public class ChatViewRecycleAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         ImageView profileImge;
         ImageView plusbtn;
         AppCompatButton balanceBtn;
+        LinearLayout promise;
+        TextView promise_date;
+        TextView promise_time;
+        TextView promise_location;
+        TextView promise_btn;
+        ImageView emoticon;
 
         public NoImgViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -220,34 +292,63 @@ public class ChatViewRecycleAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             profileImge = imgBinding.callProfileImg;
             plusbtn = imgBinding.chatBtnPlus;
             balanceBtn = imgBinding.balanceBtn;
+            promise = imgBinding.promise;
+            promise_date = imgBinding.promiseDate;
+            promise_time = imgBinding.promiseTime;
+            promise_location = imgBinding.promiseLocation;
+            promise_btn = imgBinding.promiseBtn;
+            emoticon = imgBinding.emoticon;
         }
 
         void onBind(ChatDTO item) {
+            boolean isContent = true;
             no_content.setText(item.getChatcontent());
             if (item.getChatcontent().contains("원이 송금 되었습니다.")) {
                 balanceBtn.setVisibility(View.VISIBLE);
             } else {
                 balanceBtn.setVisibility(View.GONE);
             }
+            if (item.getChatcontent().startsWith("약속 날짜: ")) {
+                promise.setVisibility(View.VISIBLE);
+
+                matcher = pattern.matcher(item.getChatcontent());
+                promise_date.setText(matcher.group(1));
+                promise_time.setText(matcher.group(2));
+                promise_location.setText(matcher.group(3));
+                promise_btn.setOnClickListener(view -> {
+                    FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
+                    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(context, "권한이 없어 해당 기능을 실행할 수 없습니다.", Toast.LENGTH_SHORT).show();    // 권한요청이 거절된 경우
+                        return;
+                    }
+                    fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+                        Location destination = Location.newBuilder(matcher.group(3), location.getLatitude(), location.getLongitude()).build();
+                        NaviOptions options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84).setVehicleType(VehicleType.FIRST).setRpOption(RpOption.SHORTEST).build();
+                        KakaoNaviParams.Builder builder = KakaoNaviParams.newBuilder(destination).setNaviOptions(options);
+                        KakaoNaviService.getInstance().navigate(context, builder.build());
+                    });
+                });
+                isContent = false;
+            } else {
+                promise.setVisibility(View.GONE);
+            }
             no_time.setText(dateFormat.format(item.getSendtime()));
             if (item.getImg() != null && item.getChatcontent().equals("사진")) {
                 glide.load(imageUrl + item.getImg()).into(no_img);
                 no_img_gone.setVisibility(View.VISIBLE);
-                no_content.setVisibility(View.GONE);
+                isContent = false;
             } else {
                 glide.clear(no_img);
                 no_img_gone.setVisibility(View.GONE);
-                no_content.setVisibility(View.VISIBLE);
             }
             if (item.getChatcontent().equals("::명함::")) {
                 glide.load(profileUrl + item.getProfile_img()).into(profileImge);
                 nickname.setText(item.getNickname());
                 phonenumber.setText(item.getPhonenumber());
-                no_content.setVisibility(View.GONE);
+                isContent = false;
                 callView.setVisibility(View.VISIBLE);
             } else {
                 glide.clear(profileImge);
-                no_content.setVisibility(View.VISIBLE);
                 callView.setVisibility(View.GONE);
             }
             plusbtn.setOnClickListener(view -> {
@@ -276,10 +377,13 @@ public class ChatViewRecycleAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                     @Override
                     public void onFailure(Call<Map> call, Throwable t) {
-
                     }
                 });
             });
+            if (isContent)
+                no_content.setVisibility(View.VISIBLE);
+            else
+                no_content.setVisibility(View.GONE);
         }
     }
 
@@ -297,6 +401,13 @@ public class ChatViewRecycleAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         ImageView profileImge;
         ImageView plusbtn;
         AppCompatButton balanceBtn;
+        LinearLayout promise;
+        TextView promise_date;
+        TextView promise_time;
+        TextView promise_location;
+        TextView promise_btn;
+        ImageView emoticon;
+
 
         public LeftViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -312,9 +423,16 @@ public class ChatViewRecycleAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             profileImge = leftBinding.callProfileImg;
             plusbtn = leftBinding.chatBtnPlus;
             balanceBtn = leftBinding.balanceBtn;
+            promise = leftBinding.promise;
+            promise_date = leftBinding.promiseDate;
+            promise_time = leftBinding.promiseTime;
+            promise_location = leftBinding.promiseLocation;
+            promise_btn = leftBinding.promiseBtn;
+            emoticon = leftBinding.emoticon;
         }
 
         void onBind(ChatDTO item) {
+            boolean isContent = true;
             glide.load(profileUrl + item.getProfile_img()).into(user_profile);
             user_id.setText(item.getNickname());
             user_content.setText(item.getChatcontent());
@@ -323,25 +441,48 @@ public class ChatViewRecycleAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             } else {
                 balanceBtn.setVisibility(View.GONE);
             }
+            if (item.getChatcontent().startsWith("약속 날짜: ")) {
+                promise.setVisibility(View.VISIBLE);
+                isContent = false;
+                matcher = pattern.matcher(item.getChatcontent());
+                if(matcher.matches()) {
+                    promise_date.setText(matcher.group(1));
+                    promise_time.setText(matcher.group(2));
+                    promise_location.setText(matcher.group(3));
+                }
+                promise_btn.setOnClickListener(view -> {
+                    FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
+                    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(context, "권한이 없어 해당 기능을 실행할 수 없습니다.", Toast.LENGTH_SHORT).show();    // 권한요청이 거절된 경우
+                        return;
+                    }
+                    fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+                        Location destination = Location.newBuilder(matcher.group(3), location.getLatitude(), location.getLongitude()).build();
+                        NaviOptions options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84).setVehicleType(VehicleType.FIRST).setRpOption(RpOption.SHORTEST).build();
+                        KakaoNaviParams.Builder builder = KakaoNaviParams.newBuilder(destination).setNaviOptions(options);
+                        KakaoNaviService.getInstance().navigate(context, builder.build());
+                    });
+                });
+            } else {
+                promise.setVisibility(View.GONE);
+            }
             user_time.setText(dateFormat.format(item.getSendtime()));
             if (item.getImg() != null && item.getChatcontent().equals("사진")) {
                 glide.load(imageUrl + item.getImg()).into(user_img);
                 leftGone.setVisibility(View.VISIBLE);
-                user_content.setVisibility(View.GONE);
+                isContent = false;
             } else {
                 glide.clear(user_img);
                 leftGone.setVisibility(View.GONE);
-                user_content.setVisibility(View.VISIBLE);
             }
             if (item.getChatcontent().equals("::명함::")) {
                 glide.load(profileUrl + item.getProfile_img()).into(profileImge);
                 nickname.setText(item.getNickname());
                 phonenumber.setText(item.getPhonenumber());
-                user_content.setVisibility(View.GONE);
+                isContent = false;
                 callView.setVisibility(View.VISIBLE);
             } else {
                 glide.clear(profileImge);
-                user_content.setVisibility(View.VISIBLE);
                 callView.setVisibility(View.GONE);
             }
             plusbtn.setOnClickListener(view -> {
@@ -377,6 +518,10 @@ public class ChatViewRecycleAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     }
                 });
             });
+            if (isContent)
+                user_content.setVisibility(View.VISIBLE);
+            else
+                user_content.setVisibility(View.GONE);
         }
     }
 

@@ -84,6 +84,7 @@ dependencies {
 
     implementation "com.kakao.sdk:v2-user:2.11.0"
     implementation group: project.KAKAO_SDK_GROUP, name: 'usermgmt', version: project.KAKAO_SDK_VERSION
+    implementation group: project.KAKAO_SDK_GROUP, name: 'kakaonavi', version: project.KAKAO_SDK_VERSION
 
     implementation files('libs/libDaumMapAndroid.jar')
 

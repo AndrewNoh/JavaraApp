@@ -41,29 +41,60 @@
                     android:textStyle="bold" />
 
                 <DatePicker
+                    android:id="@+id/dialog_data_picker"
                     android:layout_width="wrap_content"
                     android:layout_height="140dp"
                     android:calendarViewShown="false"
                     android:datePickerMode="spinner" />
 
                 <TimePicker
+                    android:id="@+id/dialog_time_picker"
                     android:layout_width="match_parent"
                     android:layout_height="140dp"
                     android:timePickerMode="spinner" />
 
                 <RelativeLayout
-                    android:id="@+id/map_view"
+                    android:id="@+id/dialog_view"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="50dp" />
+                    android:layout_marginBottom="50dp"
+                    >
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@+id/custom_marker"
+                        android:layout_centerHorizontal="true"
+                        app:cardBackgroundColor="@android:color/background_light"
+                        app:cardCornerRadius="12dp"
+                        app:cardPreventCornerOverlap="false"
+                        app:cardUseCompatPadding="true">
+
+                        <TextView
+                            android:id="@+id/custom_show_message"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:text="위치를 정해주세요."
+                            android:textStyle="bold" />
+                    </androidx.cardview.widget.CardView>
+
+                    <ImageView
+                        android:id="@+id/custom_marker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="20dp"
+                        android:src="@drawable/markers" />
+                </RelativeLayout>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/frmOk"
+        android:id="@+id/dialog_frmOk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
@@ -90,7 +121,7 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/frmNo"
+        android:id="@+id/dialog_frmNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"

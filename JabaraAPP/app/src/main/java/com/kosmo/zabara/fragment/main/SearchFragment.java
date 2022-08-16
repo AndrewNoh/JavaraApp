@@ -114,6 +114,10 @@ public class SearchFragment extends Fragment {
         confidence = binding.confidence;
         imageView = binding.imageView;
         picture = binding.button;
+        result.setOnClickListener(view -> {
+            String title = result.getText().toString();
+            searchProcess(title);
+        });
         picture.setOnClickListener(view -> {
             if (ActivityCompat.checkSelfPermission(contextNullSafe, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -126,9 +130,10 @@ public class SearchFragment extends Fragment {
         binding.searchInput.setOnEditorActionListener((view, actionId, keyEvent) -> {
             switch (actionId) {
                 case EditorInfo.IME_ACTION_SEARCH:
-                    InputMethodManager inputMethodManager =  (InputMethodManager) contextNullSafe.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
-                    searchProcess();
+                    InputMethodManager inputMethodManager = (InputMethodManager) contextNullSafe.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    String title = binding.searchInput.getText().toString();
+                    searchProcess(title);
                     break;
                 default:
                     // 기본 엔터키 동작
@@ -140,15 +145,13 @@ public class SearchFragment extends Fragment {
         return binding.getRoot();
     }
 
-    private void searchProcess() {
-
+    private void searchProcess(String content) {
         preferences = contextNullSafe.getSharedPreferences("usersInfo", Context.MODE_PRIVATE);
         email = preferences.getString("email", "");
         Map map = new HashMap();
         map.put("email", email);
         map.put("choseMenu", "search");
-        String title = binding.searchInput.getText().toString();
-        map.put("title", title);
+        map.put("title", content);
         Call<Map> call = service.choseMenu(map);
         call.enqueue(new Callback<Map>() {
             @Override
@@ -156,7 +159,7 @@ public class SearchFragment extends Fragment {
                 Map map = response.body();
                 List<ShowDTO> itemList = mapper.convertValue(map.get("showDTO"), new TypeReference<List<ShowDTO>>() {
                 });
-                if(itemList.size()!=0) {
+                if (itemList.size() != 0) {
                     RecyclerView recyclerView = binding.searchRecyclerView;
                     DetailRecycleAdapter adapter = new DetailRecycleAdapter(contextNullSafe);
                     recyclerView.setLayoutManager(new LinearLayoutManager(contextNullSafe, LinearLayoutManager.VERTICAL, false));
@@ -219,7 +222,7 @@ public class SearchFragment extends Fragment {
                     maxPos = i;
                 }
             }
-            String[] classes = {"icon", "qr", "erd"};
+            String[] classes = {"휴대폰", "Apple", "아이폰13", "아이폰"};
             result.setText(classes[maxPos]);
 
             String s = "";

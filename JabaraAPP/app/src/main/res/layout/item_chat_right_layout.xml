@@ -61,7 +61,7 @@
             android:id="@+id/msg_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="5dp"
             android:maxWidth="260dp"
             android:paddingLeft="12dp"
             android:paddingTop="8dp"
@@ -69,7 +69,67 @@
             android:text="This is a Message"
             android:textColor="@color/textColor"
             android:textSize="16sp" />
+        <LinearLayout
+            android:id="@+id/promise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="12dp"
+            android:paddingTop="8dp"
+            android:paddingRight="12dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="약속"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/promise_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="날짜 : 2022-05-30"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/promise_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="시간 : 2022-05-30"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="장소"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/promise_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/promise_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="지도로보기"
+                android:textColor="@android:color/holo_blue_light"
+                android:textStyle="bold" />
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/emoticon"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/background"
+        android:visibility="gone" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/call_view"

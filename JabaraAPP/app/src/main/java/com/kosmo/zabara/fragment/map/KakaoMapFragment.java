@@ -1,21 +1,27 @@
 package com.kosmo.zabara.fragment.map;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.kosmo.zabara.R;
 import com.kosmo.zabara.api.dto.BoardDTO;
@@ -334,6 +340,14 @@ public class KakaoMapFragment extends Fragment implements MapView.CurrentLocatio
         mapView.setCustomCurrentLocationMarkerTrackingImage(R.drawable.marker_gif, new MapPOIItem.ImageOffset(30, 30));
         mapView.setCustomCurrentLocationMarkerImage(R.drawable.marker_gif, new MapPOIItem.ImageOffset(30, 0));
         mapView.setCustomCurrentLocationMarkerDirectionImage(R.drawable.custom_map_present_direction, new MapPOIItem.ImageOffset(65, 65));
+        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(contextNullSafe);
+        if (ActivityCompat.checkSelfPermission(contextNullSafe, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(contextNullSafe, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(contextNullSafe, "권한이 없어 해당 기능을 실행할 수 없습니다.", Toast.LENGTH_SHORT).show();    // 권한요청이 거절된 경우
+            return;
+        }
+        fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+            mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(location.getLatitude(), location.getLongitude()), false);
+        });
     }
 
     @Override
