@@ -346,8 +346,8 @@ public class ChatViewFragment extends Fragment implements MapView.MapViewEventLi
     private void insertLeftContent(String str) {
         ChatDTO sendMSGDTO = new ChatDTO();
         sendMSGDTO.setChatcontent(str);
+        sendMSGDTO.setRoom_no(room_no);
         if (adapter.items.get(adapter.getItemCount() - 1).getViewType() == ChatViewRecycleAdapter.LEFT_CONTENT) {
-            sendMSGDTO.setRoom_no(room_no);
             sendMSGDTO.setViewType(ChatViewRecycleAdapter.LEFT_CONTENT_IMG);
         } else {
             sendMSGDTO.setViewType(ChatViewRecycleAdapter.LEFT_CONTENT);
@@ -562,7 +562,7 @@ public class ChatViewFragment extends Fragment implements MapView.MapViewEventLi
     public void onPause() {
         if (mWebSocketClient.isOpen()) {
             mWebSocketClient.send("Close from " + Build.MANUFACTURER + " " + Build.MODEL);
-            mWebSocketClient.close();
+
         }
         super.onPause();
     }
@@ -644,8 +644,15 @@ public class ChatViewFragment extends Fragment implements MapView.MapViewEventLi
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         localBroadcastManager.unregisterReceiver(localReceiver);    //Cancellation of broadcasting registration
+        mWebSocketClient.close();
     }
 }

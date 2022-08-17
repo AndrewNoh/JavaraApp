@@ -322,9 +322,12 @@ public class ChatViewRecycleAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 promise.setVisibility(View.VISIBLE);
 
                 matcher = pattern.matcher(item.getChatcontent());
-                promise_date.setText(matcher.group(1));
-                promise_time.setText(matcher.group(2));
-                promise_location.setText(matcher.group(3));
+
+                if (matcher.matches()) {
+                    promise_date.setText(matcher.group(1));
+                    promise_time.setText(matcher.group(2));
+                    promise_location.setText(matcher.group(3));
+                }
                 promise_btn.setOnClickListener(view -> {
                     FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
                     if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -386,6 +389,9 @@ public class ChatViewRecycleAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 String email = preferences.getString("email", "");
                 Map map = new HashMap();
                 map.put("email", email);
+                map.put("chatcontent", "송금이 완료되었습니다.");
+                map.put("room_no", item.getRoom_no());
+                map.put("rownum", getAbsoluteAdapterPosition()+1);
                 String balanceStr = no_content.getText().toString();
                 map.put("balance", balanceStr.substring(0, balanceStr.indexOf("원")));
                 Call<Map> call = service.deposit(map);
@@ -537,7 +543,7 @@ public class ChatViewRecycleAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 map.put("email", email);
                 map.put("chatcontent", "송금이 완료되었습니다.");
                 map.put("room_no", item.getRoom_no());
-                map.put("rownum", getAbsoluteAdapterPosition());
+                map.put("rownum", getAbsoluteAdapterPosition()+1);
                 String balanceStr = user_content.getText().toString();
                 map.put("balance", balanceStr.substring(0, balanceStr.indexOf("원")));
                 Call<Map> call = service.deposit(map);
